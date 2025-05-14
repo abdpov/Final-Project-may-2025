@@ -1,4 +1,3 @@
-// agency/models/Property.java
 package agency.models;
 
 public class Property {
@@ -26,5 +25,21 @@ public class Property {
         this.monthlyRent = monthlyRent;
     }
 
-    // Геттеры и сеттеры для всех полей
+    // Геттеры
+    public int getId() { return id; }
+    public String getAddress() { return address; }
+    public String getType() { return type; }
+    public String getStatus() { return status; }
+    public double getPrice() { return price; }
+    public int getOwnerId() { return ownerId; }
+    public int getTenantId() { return tenantId; }
+    public String getRentPeriod() { return rentPeriod; }
+    public double getMonthlyRent() { return monthlyRent; }
+
+    // Сеттеры
+    public void setStatus(String status) { this.status = status; }
+    public void setOwnerId(int ownerId) { this.ownerId = ownerId; }
+    public void setTenantId(int tenantId) { this.tenantId = tenantId; }
+    public void setRentPeriod(String rentPeriod) { this.rentPeriod = rentPeriod; }
+    public void setMonthlyRent(double monthlyRent) { this.monthlyRent = monthlyRent; }
 }

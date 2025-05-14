@@ -1,4 +1,3 @@
-// agency/models/Task.java
 package agency.models;
 
 public class Task {
@@ -14,5 +13,12 @@ public class Task {
         this.status = status;
     }
 
-    // Геттеры и сеттеры
+    // Геттеры
+    public int getId() { return id; }
+    public String getDescription() { return description; }
+    public int getAssignedTo() { return assignedTo; }
+    public String getStatus() { return status; }
+
+    // Сеттеры
+    public void setStatus(String status) { this.status = status; }
 }

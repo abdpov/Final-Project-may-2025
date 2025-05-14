@@ -1,6 +1,5 @@
 package agency.models;
 
-// agency/models/User.java
 public class User {
     private int id;
     private String username;
@@ -21,8 +20,16 @@ public class User {
         this.experience = experience;
     }
 
-    // Геттеры и сеттеры для всех полей
+    // Геттеры
     public int getId() { return id; }
     public String getUsername() { return username; }
-    // ... остальные геттеры и сеттеры
+    public String getPassword() { return password; }
+    public String getAccountType() { return accountType; }
+    public String getFullName() { return fullName; }
+    public double getSalary() { return salary; }
+    public int getExperience() { return experience; }
+
+    // Сеттеры
+    public void setSalary(double salary) { this.salary = salary; }
+    public void setExperience(int experience) { this.experience = experience; }
 }
