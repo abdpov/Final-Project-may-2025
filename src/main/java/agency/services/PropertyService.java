@@ -1,4 +1,3 @@
-// agency/services/PropertyService.java
 package agency.services;
 
 import agency.models.Property;
@@ -7,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PropertyService {
-    private Connection connection;
+    private final Connection connection;
 
     public PropertyService(Connection connection) {
         this.connection = connection;
@@ -19,20 +18,21 @@ public class PropertyService {
 
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setString(1, status);
-            ResultSet rs = stmt.executeQuery();
 
-            while (rs.next()) {
-                properties.add(new Property(
-                        rs.getInt("id"),
-                        rs.getString("address"),
-                        rs.getString("type"),
-                        rs.getString("status"),
-                        rs.getDouble("price"),
-                        rs.getInt("owner_id"),
-                        rs.getInt("tenant_id"),
-                        rs.getString("rent_period"),
-                        rs.getDouble("monthly_rent")
-                ));
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    properties.add(new Property(
+                            rs.getInt("id"),
+                            rs.getString("address"),
+                            rs.getString("type"),
+                            rs.getString("status"),
+                            rs.getDouble("price"),
+                            rs.getInt("owner_id"),
+                            rs.getInt("tenant_id"),
+                            rs.getString("rent_period"),
+                            rs.getDouble("monthly_rent")
+                    ));
+                }
             }
         }
         return properties;
@@ -44,6 +44,29 @@ public class PropertyService {
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setString(1, newStatus);
             stmt.setInt(2, propertyId);
+            return stmt.executeUpdate() > 0;
+        }
+    }
+
+    public boolean sellProperty(int propertyId, int clientId) throws SQLException {
+        String sql = "UPDATE properties SET status = 'sold', owner_id = ? WHERE id = ?";
+
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setInt(1, clientId);
+            stmt.setInt(2, propertyId);
+            return stmt.executeUpdate() > 0;
+        }
+    }
+
+    public boolean rentProperty(int propertyId, int clientId, String period, double monthlyRent) throws SQLException {
+        String sql = "UPDATE properties SET status = 'rented', tenant_id = ?, " +
+                "rent_period = ?, monthly_rent = ? WHERE id = ?";
+
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setInt(1, clientId);
+            stmt.setString(2, period);
+            stmt.setDouble(3, monthlyRent);
+            stmt.setInt(4, propertyId);
             return stmt.executeUpdate() > 0;
         }
     }
